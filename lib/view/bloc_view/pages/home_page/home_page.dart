@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task/service_locator.dart';
-import 'package:task/view/pages/home_page/widgets/list_all_breeds_widget.dart';
-import '';
-import '../../../bloc/list_of_dog_breeds/list_of_dog_breeds_bloc.dart';
+import 'package:task/bloc/list_of_dog_breeds/list_of_dog_breeds_bloc.dart';
+import 'package:task/view/bloc_view/pages/home_page/widgets/list_all_breeds_widget.dart';
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 

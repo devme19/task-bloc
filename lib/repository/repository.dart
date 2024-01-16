@@ -12,6 +12,7 @@ class Repository{
   Repository({required this.remoteDataSource,this.localDataSource});
 
 
+
   Future<AllBreedsModel> getAllBreeds(String url) async{
     try{
       final response = await remoteDataSource.get<AllBreedsModel,Null>(url);

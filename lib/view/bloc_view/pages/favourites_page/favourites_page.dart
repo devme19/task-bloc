@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task/bloc/favourites/favourites_bloc.dart';
 import 'package:task/bloc/filter_by_breed/filter_by_breed_bloc.dart';
 import 'package:task/service_locator.dart';
-import 'package:task/view/pages/breed_pictures_page/widgets/show_breed_pictures_widget.dart';
+
+import '../breed_pictures_page/widgets/show_breed_pictures_widget.dart';
 
 class FavouritesPage extends StatelessWidget {
   FavouritesBloc? favouritesBloc;
