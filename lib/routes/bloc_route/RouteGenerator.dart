@@ -29,8 +29,9 @@ class RouteGenerator {
           settings: RouteSettings(arguments: args.toString()),
           builder: (_) => BlocProvider<BreedPicturesBloc>.value(
             value: getIt.get<BreedPicturesBloc>()..add(FetchBreedPicturesEvent(breed: args.toString())),
-            child: const BreedPicturesPage(),
+            child: const BreedPicturesPage()
           ),
+
         );
       case '/favourites':
         return MaterialPageRoute(

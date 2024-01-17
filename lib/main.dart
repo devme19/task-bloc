@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get_it/get_it.dart';
 import 'package:get_storage/get_storage.dart';
@@ -16,8 +17,52 @@ import 'data/data_sources/local/local_data_source.dart';
 import 'package:task/service_locator.dart';
 
 void main() {
-  // dependency_inject();
-  runApp(ProviderScope(child: MyApp()));
+  dependency_inject();
+  BlocOverrides.runZoned(
+        () {
+      runApp(MyApp());
+    },
+    blocObserver: SimpleBlocObserver(),
+  );
+}
+class SimpleBlocObserver extends BlocObserver {
+
+
+  @override
+  void onEvent(Bloc bloc, Object? event) {
+    super.onEvent(bloc, event);
+    print(event);
+  }
+
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    print(change);
+  }
+
+  @override
+  void onCreate(BlocBase bloc) {
+    super.onCreate(bloc);
+    print(bloc);
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print(transition);
+  }
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    print(error);
+    super.onError(bloc, error, stackTrace);
+  }
+
+  @override
+  void onClose(BlocBase<dynamic> bloc) {
+    print("close $bloc");
+    super.onClose(bloc);
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -31,7 +76,7 @@ class MyApp extends StatelessWidget {
     return
      MaterialApp(
        title: 'Flutter Demo',
-       onGenerateRoute: RouteGenerator2.generateRoute,
+       onGenerateRoute: RouteGenerator.generateRoute,
        initialRoute: '/',
        theme: ThemeData(
          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

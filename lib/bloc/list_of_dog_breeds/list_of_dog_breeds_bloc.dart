@@ -15,7 +15,7 @@ class ListOfDogBreedsBloc extends Bloc<ListOfDogBreedsEvent, ListOfDogBreedsStat
     on<ListOfDogBreedsEvent>((event, emit) async{
       if(event is ListOfDogBreedsEvent){
         emit(ListOfDogBreedsLoading());
-        await repository.getAllBreeds("https://diog.ceo/api/breeds/list/all")
+        await repository.getAllBreeds("https://dog.ceo/api/breeds/list/all")
         // .onError((error, stackTrace) => emit(ListOfDogBreedsError(error.toString())))
         .then((value) {
           if(value != null){
