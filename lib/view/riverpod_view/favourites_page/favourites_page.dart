@@ -8,23 +8,23 @@ class FavouritesPage2 extends ConsumerWidget {
   List<String> favourites=[];
   List<String> filteredItems=[];
   bool isFilter = false;
-  FavouritesPage2({super.key}){
-
-  }
+  String filterItem = "Tap to filter";
+  FavouritesPage2({super.key});
   @override
   Widget build(BuildContext context,WidgetRef ref) {
     favourites= ref.watch(likeUnlikeImageProvider(ref)).favourites!;
     filteredItems = ref.watch(filterBreedProvider).filteredItems;
     isFilter = ref.watch(filterBreedProvider).isFilter;
+    filterItem = ref.watch(filterBreedProvider).filterItem;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favourites'),
         actions: [
           GestureDetector(
             onTap: ()=>_modalBottomSheetMenu(context,favourites,ref),
-            child: const Row(children: [
-              Text("Tap to filter"),
-              Icon(Icons.filter_alt)
+            child:  Row(children: [
+              Text(filterItem),
+              const Icon(Icons.filter_alt)
             ],),
           )
         ],
@@ -38,6 +38,9 @@ class FavouritesPage2 extends ConsumerWidget {
         return const Center(child: Text("There is no item"),);
       }
       return ShowBreedPicturesWidget2(items: filteredItems,);
+    }
+    if(favourites.isEmpty){
+      return const Center(child: Text("There is no item"),);
     }
     return ShowBreedPicturesWidget2(items: favourites,);
   }

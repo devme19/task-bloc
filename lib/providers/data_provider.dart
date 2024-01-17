@@ -29,9 +29,11 @@ final likeUnlikeImageProvider = ChangeNotifierProvider.family.autoDispose<LikeUn
 class FilterBreedNotifier extends ChangeNotifier{
   List<String> filteredItems=[];
   bool isFilter = false;
+  String filterItem="Tap to filter";
   filter(String filter,List<String> items){
     filteredItems.clear();
     isFilter = true;
+    filterItem = filter;
     for(String item in items){
       if(item.contains(filter)){
         filteredItems.add(item);
@@ -41,6 +43,7 @@ class FilterBreedNotifier extends ChangeNotifier{
   }
   clearFilter(){
     isFilter = false;
+    filterItem = "Tap to filter";
     notifyListeners();
   }
 }
