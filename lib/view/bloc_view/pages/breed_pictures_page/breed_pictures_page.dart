@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task/bloc/breed_pictures/breed_pictures_bloc.dart';
+import 'package:task/service_locator.dart';
 import 'package:task/view/bloc_view/pages/breed_pictures_page/widgets/show_breed_pictures_widget.dart';
 
 class BreedPicturesPage extends StatefulWidget {
@@ -33,6 +34,13 @@ class _BreedPicturesPageState extends State<BreedPicturesPage> {
             }),
       );
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    getIt.get<BreedPicturesBloc>().close();
+  }
+
 }
 
 

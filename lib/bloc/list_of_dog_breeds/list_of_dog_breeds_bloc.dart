@@ -30,5 +30,4 @@ class ListOfDogBreedsBloc extends Bloc<ListOfDogBreedsEvent, ListOfDogBreedsStat
     });
   }
 
-  dispose() {}
 }

@@ -71,4 +71,19 @@ class Repository{
       throw Exception(e);
     }
   }
+  saveTheme(bool isDark){
+    try{
+      final response = localDataSource!.saveTheme(isDark);
+      return response;
+    }catch(e){
+      throw Exception(e);
+    }
+  }
+  bool getTheme(){
+    try{
+      return localDataSource!.getTheme();
+    }catch(e){
+      throw Exception(e);
+    }
+  }
 }

@@ -7,6 +7,8 @@ abstract class LocalDataSource{
   List<String> loadFavourites();
   List<String> loadBreeds();
   bool saveBreeds(List<String> breeds);
+  bool saveTheme(bool isDark);
+  bool getTheme();
 }
 
 class LocalDataSourceImpl implements LocalDataSource{
@@ -52,6 +54,25 @@ class LocalDataSourceImpl implements LocalDataSource{
       return breeds;
     }
     return [];
+  }
+
+  @override
+  bool getTheme() {
+    try{
+     return box!.read("isDark");
+    }catch(e){
+      return false;
+    }
+  }
+
+  @override
+  bool saveTheme(bool isDark) {
+    try{
+      box!.write("isDark", isDark);
+      return true;
+    }catch(e){
+      return false;
+    }
   }
 
 }

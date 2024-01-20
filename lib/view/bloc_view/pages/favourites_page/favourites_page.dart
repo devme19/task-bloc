@@ -6,14 +6,22 @@ import 'package:task/service_locator.dart';
 
 import '../breed_pictures_page/widgets/show_breed_pictures_widget.dart';
 
-class FavouritesPage extends StatelessWidget {
+class FavouritesPage extends StatefulWidget {
   FavouritesBloc? favouritesBloc;
   FilterByBreedBloc? filterByBreedBloc;
-  List<String> favourites=[];
+
   FavouritesPage({super.key}){
     favouritesBloc = getIt.get<FavouritesBloc>()..add(GetFavouritesEvent());
     filterByBreedBloc = getIt.get<FilterByBreedBloc>();
   }
+
+  @override
+  State<FavouritesPage> createState() => _FavouritesPageState();
+}
+
+class _FavouritesPageState extends State<FavouritesPage> {
+  List<String> favourites=[];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +32,7 @@ class FavouritesPage extends StatelessWidget {
             onTap: ()=>_modalBottomSheetMenu(context,favourites),
             child: Row(children: [
               BlocBuilder<FilterByBreedBloc,FilterByBreedState>(
-                bloc: filterByBreedBloc,
+                bloc: widget.filterByBreedBloc,
                   builder: (BuildContext context,FilterByBreedState state){
                 if(state is FilterByBreedLoaded || state is FilterByBreedEmpty){
                   return Text(state.breed!);
@@ -38,7 +46,7 @@ class FavouritesPage extends StatelessWidget {
         ],
       ),
       body: BlocBuilder<FavouritesBloc,GetFavouriteState>(
-        bloc: favouritesBloc,
+        bloc: widget.favouritesBloc,
         builder: (BuildContext context,GetFavouriteState state){
         if(state is GetFavouritesLoading){
           return const Center(child: CircularProgressIndicator(),);
@@ -53,7 +61,7 @@ class FavouritesPage extends StatelessWidget {
         else
         {
             return BlocBuilder<FilterByBreedBloc, FilterByBreedState>(
-              bloc: filterByBreedBloc,
+              bloc: widget.filterByBreedBloc,
                 builder: (BuildContext context, FilterByBreedState state) {
               if (state is FilterByBreedLoaded) {
                 return ShowBreedPicturesWidget(items: state.filteredItems);
@@ -68,8 +76,9 @@ class FavouritesPage extends StatelessWidget {
         },),
     );
   }
+
    void _modalBottomSheetMenu(context,List<String> favourites){
-    List<String> breeds = filterByBreedBloc!.loadBreeds();
+    List<String> breeds = widget.filterByBreedBloc!.loadBreeds();
      showModalBottomSheet(
          context: context,
          builder: (builder){
@@ -85,8 +94,8 @@ class FavouritesPage extends StatelessWidget {
                      children: [
                        GestureDetector(
                          onTap: (){
-                           filterByBreedBloc!.add(ClearFilterEvent());
-                           favouritesBloc!.add(GetFavouritesEvent());
+                           widget.filterByBreedBloc!.add(ClearFilterEvent());
+                           widget.favouritesBloc!.add(GetFavouritesEvent());
                            Navigator.pop(context);
                          },
                          child: const Padding(
@@ -113,8 +122,8 @@ class FavouritesPage extends StatelessWidget {
                          return
                            ListTile(
                              onTap: (){
-                               favouritesBloc!.add(InitialFavouriteEvent());
-                               filterByBreedBloc!.add(FilterBreedEvent(breed: breeds[index],items: favourites));
+                               widget.favouritesBloc!.add(InitialFavouriteEvent());
+                               widget.filterByBreedBloc!.add(FilterBreedEvent(breed: breeds[index],items: favourites));
                                Navigator.pop(context);
                              },
                              title: Text(breeds[index]),
@@ -128,4 +137,10 @@ class FavouritesPage extends StatelessWidget {
          }
      );
    }
+
+  @override
+  void dispose() {
+    super.dispose();
+    getIt.get<FilterByBreedBloc>().close();
+  }
 }
